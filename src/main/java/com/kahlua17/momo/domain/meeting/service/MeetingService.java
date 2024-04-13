@@ -22,10 +22,14 @@ public class MeetingService {
     }
 
     public Meeting joinMeeting(String userId, String meetingId) {
-        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() -> new NotFoundException("Meeting not found"));
+        Meeting meeting = getMeetingById(meetingId);
         meeting.getMemberIds().add(userId);
         meetingRepository.save(meeting);
 
         return meeting;
+    }
+
+    public Meeting getMeetingById(String meetingId) {
+        return meetingRepository.findById(meetingId).orElseThrow(() -> new NotFoundException("Meeting not found"));
     }
 }

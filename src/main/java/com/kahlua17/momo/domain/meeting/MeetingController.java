@@ -80,4 +80,13 @@ public class MeetingController {
 
         return new GetMeetingResponse(meeting);
     }
+
+    @GetMapping("/meetings/{meeting_id}")
+    public Object getMeetings(
+            @RequestHeader(value = "User-ID") String userId,
+            @PathVariable(name = "meeting_id") String meetingId) {
+        Meeting meeting = meetingService.getMeetingById(meetingId);
+
+        return new GetMeetingResponse(meeting);
+    }
 }
