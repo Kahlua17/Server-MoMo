@@ -1,7 +1,7 @@
 package com.kahlua17.momo.domain.meeting.entity;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -14,7 +14,8 @@ public class Meeting {
 
     @Id
     private String id;
-    private final LocalDate dateTime;
+    private final LocalDate date;
     private final String locationDesc;
-    private final List<String> memberIds;
+    private final Set<String> memberIds;
+    private final int totalExpenditure;
 }
