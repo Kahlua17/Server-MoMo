@@ -1,5 +1,6 @@
 package com.kahlua17.momo.domain.meeting.service;
 
+import com.kahlua17.momo.common.exception.NotFoundException;
 import com.kahlua17.momo.domain.meeting.entity.Meeting;
 import com.kahlua17.momo.domain.meeting.repository.MeetingRepository;
 import java.util.List;
@@ -18,5 +19,13 @@ public class MeetingService {
 
     public List<Meeting> getAllMeetings(String userId) {
         return meetingRepository.findByMemberIdsContaining(userId);
+    }
+
+    public Meeting joinMeeting(String userId, String meetingId) {
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() -> new NotFoundException("Meeting not found"));
+        meeting.getMemberIds().add(userId);
+        meetingRepository.save(meeting);
+
+        return meeting;
     }
 }

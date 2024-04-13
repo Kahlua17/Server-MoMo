@@ -13,11 +13,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -74,5 +70,14 @@ public class MeetingController {
                 .map(GetMeetingResponse::new)
                 .sorted(Comparator.comparingInt(m -> m.dDay))
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/meetings/join")
+    public Object joinMeeting(
+            @RequestHeader(value = "User-ID") String userId,
+            @RequestParam(name = "meeting_id") String meetingId) {
+        Meeting meeting = meetingService.joinMeeting(userId, meetingId);
+
+        return new GetMeetingResponse(meeting);
     }
 }
