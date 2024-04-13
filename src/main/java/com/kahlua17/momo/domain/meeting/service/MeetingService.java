@@ -32,4 +32,13 @@ public class MeetingService {
     public Meeting getMeetingById(String meetingId) {
         return meetingRepository.findById(meetingId).orElseThrow(() -> new NotFoundException("Meeting not found"));
     }
+
+    public void withdrawMeeting(String userId, String meetingId) {
+        Meeting meeting = getMeetingById(meetingId);
+        if (!meeting.getMemberIds().remove(userId)) {
+            throw new NotFoundException("User is not member");
+        }
+
+        meetingRepository.save(meeting);
+    }
 }

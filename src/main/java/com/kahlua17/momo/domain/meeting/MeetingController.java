@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -88,5 +89,14 @@ public class MeetingController {
         Meeting meeting = meetingService.getMeetingById(meetingId);
 
         return new GetMeetingResponse(meeting);
+    }
+
+    @DeleteMapping("/meetings/{meeting_id}")
+    public ResponseEntity<String> withdrawMeetings(
+            @RequestHeader(value = "User-ID") String userId,
+            @PathVariable(name = "meeting_id") String meetingId) {
+        meetingService.withdrawMeeting(userId, meetingId);
+
+        return ResponseEntity.status(200).body("ok");
     }
 }
